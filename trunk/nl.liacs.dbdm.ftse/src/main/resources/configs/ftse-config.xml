@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="nl.liacs.dbdm.ftse">
+	</context:component-scan>
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<bean id="transactionManager" 
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="url" value="jdbc:mysql://localhost:3306/ftse" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	</bean>
+
+	<bean id="ftseJdbcManager" class="nl.liacs.dbdm.ftse.data.jdbc.FtseJdbcManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="insertQuery">
+			<value>
+			<![CDATA[insert into ftse (ftse_date, ftse_open, ftse_low, ftse_high, ftse_close, ftse_volume, ftse_adj_close) values(?, ?, ?, ?, ?, ?, ?)]]>
+			</value>
+		</property>
+	</bean>
+
+</beans>
