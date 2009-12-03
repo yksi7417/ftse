@@ -17,7 +17,7 @@ export PATH=$PATH:$M2_HOME/bin
 {{{
    <localRepository>/path/to/apache-maven/repo</localRepository>
 }}} 
-  # Create a *symbolic link* the Maven repository by:
+  # Create a *symbolic link* to the Maven repository by:
 {{{
 ln -s /path/to/apache-maven/repo ~/.m2/repository
 }}}
