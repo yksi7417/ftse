@@ -26,12 +26,12 @@ ln -s /path/to/apache-maven/repo ~/.m2/repository
 
 === Maven Repository ===
   
-  # You only need to define a *Classpath Variable* in eclipse to do so
-    * Go to *Window -> Preferences*
-    * In the left side tree, go to *Java -> Build Path -> Classpath Variables*
-    * Click *New...*
-    * Variable name would be *M2_REPO* and the value *~/.m2/repository*
-    * If you already have it then you're done.
+You only need to define a *Classpath Variable* in eclipse to do so
+  # Go to *Window -> Preferences*
+  # In the left side tree, go to *Java -> Build Path -> Classpath Variables*
+  # Click *New...*
+  # Variable name would be *M2_REPO* and the value *~/.m2/repository*
+  # If you already have it then you're done.
 
 === Maven Dependency Management ===
 
