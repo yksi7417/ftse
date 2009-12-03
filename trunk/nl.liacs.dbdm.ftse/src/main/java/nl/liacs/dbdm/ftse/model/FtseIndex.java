@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import nl.liacs.dbdm.ftse.data.jdbc.FtseUtils;
+import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
 
 /**
  * 
@@ -16,18 +17,40 @@ import nl.liacs.dbdm.ftse.data.jdbc.FtseUtils;
  * 
  * @author Behrooz Nobakht [bnobakht@liacs.nl]
  **/
-public class FtseIndex implements Serializable, Comparable<FtseIndex> {
+public class FtseIndex extends ObservationVector implements Serializable, Comparable<FtseIndex> {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private Date date;
-	private Float open;
-	private Float low;
-	private Float high;
-	private Float close;
-	private Float volume = 0f;
-	private Float adjClose = 0f;
+	private Double open;
+	private Double low;
+	private Double high;
+	private Double close;
+	private Double volume = 0.;
+	private Double adjClose = 0.;
+
+	public FtseIndex() {
+		super(4);
+	}
+
+	public FtseIndex(Long id) {
+		this();
+		this.id = id;
+	}
+
+	public FtseIndex(Date date, Double open, Double low, Double high, Double close) {
+		this(new double[] { open, low, high, close });
+	}
+
+	public FtseIndex(double[] value) {
+		super(value);
+		setDate(null);
+		setOpen(value[0]);
+		setLow(value[1]);
+		setHigh(value[2]);
+		setClose(value[3]);
+	}
 
 	public Long getId() {
 		return id;
@@ -100,51 +123,51 @@ public class FtseIndex implements Serializable, Comparable<FtseIndex> {
 		this.date = date;
 	}
 
-	public Float getOpen() {
+	public Double getOpen() {
 		return open;
 	}
 
-	public void setOpen(Float open) {
+	public void setOpen(Double open) {
 		this.open = open;
 	}
 
-	public Float getLow() {
+	public Double getLow() {
 		return low;
 	}
 
-	public void setLow(Float low) {
+	public void setLow(Double low) {
 		this.low = low;
 	}
 
-	public Float getHigh() {
+	public Double getHigh() {
 		return high;
 	}
 
-	public void setHigh(Float high) {
+	public void setHigh(Double high) {
 		this.high = high;
 	}
 
-	public Float getClose() {
+	public Double getClose() {
 		return close;
 	}
 
-	public void setClose(Float close) {
+	public void setClose(Double close) {
 		this.close = close;
 	}
 
-	public Float getVolume() {
+	public Double getVolume() {
 		return volume;
 	}
 
-	public void setVolume(Float volume) {
+	public void setVolume(Double volume) {
 		this.volume = volume;
 	}
 
-	public Float getAdjClose() {
+	public Double getAdjClose() {
 		return adjClose;
 	}
 
-	public void setAdjClose(Float adjClose) {
+	public void setAdjClose(Double adjClose) {
 		this.adjClose = adjClose;
 	}
 

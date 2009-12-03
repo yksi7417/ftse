@@ -32,10 +32,10 @@ public class FtseUtils {
 		}
 		try {
 			ftse.setDate(dateFormat.parse(elements[0]));
-			ftse.setOpen(Float.parseFloat(elements[1]));
-			ftse.setLow(Float.parseFloat(elements[2]));
-			ftse.setHigh(Float.parseFloat(elements[3]));
-			ftse.setClose(Float.parseFloat(elements[4]));
+			ftse.setOpen(Double.parseDouble(elements[1]));
+			ftse.setLow(Double.parseDouble(elements[2]));
+			ftse.setHigh(Double.parseDouble(elements[3]));
+			ftse.setClose(Double.parseDouble(elements[4]));
 			return ftse;
 		} catch (ParseException e) {
 		}
