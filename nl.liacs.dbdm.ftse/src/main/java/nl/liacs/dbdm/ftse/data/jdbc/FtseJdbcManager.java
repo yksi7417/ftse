@@ -58,12 +58,12 @@ public class FtseJdbcManager extends JdbcDaoSupport {
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
 				FtseIndex ftse = all.get(i);
 				ps.setString(1, ftse.getDateString());
-				ps.setFloat(2, ftse.getOpen());
-				ps.setFloat(3, ftse.getLow());
-				ps.setFloat(4, ftse.getHigh());
-				ps.setFloat(5, ftse.getClose());
-				ps.setFloat(6, ftse.getVolume());
-				ps.setFloat(7, ftse.getAdjClose());
+				ps.setDouble(2, ftse.getOpen());
+				ps.setDouble(3, ftse.getLow());
+				ps.setDouble(4, ftse.getHigh());
+				ps.setDouble(5, ftse.getClose());
+				ps.setDouble(6, ftse.getVolume());
+				ps.setDouble(7, ftse.getAdjClose());
 				logger.debug("SQL prepared for: " + ftse);
 			}
 

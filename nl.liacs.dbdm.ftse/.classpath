@@ -7,8 +7,9 @@
   <classpathentry kind="var" path="M2_REPO/javax/jms/jms/1.1/jms-1.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4/mail-1.4.jar" sourcepath="M2_REPO/javax/mail/mail/1.4/mail-1.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" sourcepath="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar" sourcepath="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-math/2.0/commons-math-2.0.jar" sourcepath="M2_REPO/org/apache/commons/commons-math/2.0/commons-math-2.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/be/ac/ulg/montefiore/run/jahmm/jahmm/0.6.2/jahmm-0.6.2.jar" sourcepath="M2_REPO/be/ac/ulg/montefiore/run/jahmm/jahmm/0.6.2/jahmm-0.6.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/sun/jmx/jmxri/1.2.1/jmxri-1.2.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/sun/jdmk/jmxtools/1.2.1/jmxtools-1.2.1.jar"/>

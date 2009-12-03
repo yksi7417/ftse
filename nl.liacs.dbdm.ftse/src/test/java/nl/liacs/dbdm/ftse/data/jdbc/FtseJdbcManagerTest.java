@@ -49,10 +49,10 @@ public class FtseJdbcManagerTest extends AbstractTransactionalJUnit4SpringContex
 	public void testSave() throws Exception {
 		FtseIndex ftse = new FtseIndex();
 		ftse.setDate(new Date());
-		ftse.setOpen(1000f);
-		ftse.setLow(1000f);
-		ftse.setHigh(1000f);
-		ftse.setClose(1000f);
+		ftse.setOpen(1000.);
+		ftse.setLow(1000.);
+		ftse.setHigh(1000.);
+		ftse.setClose(1000.);
 		ftseJdbcManager.save(ftse);
 	}
 
