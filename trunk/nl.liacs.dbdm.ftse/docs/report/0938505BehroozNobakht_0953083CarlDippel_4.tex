@@ -54,7 +54,7 @@
 
 \begin{document}
 
-\title{Stock Market Analysis and Predictio using Hidden Markov Models}
+\title{Stock Market Analysis and Prediction using Hidden Markov Models}
 %\subtitle{Assignment 3 - DBDM - LIACS 2009}
 
 \numberofauthors{2}
@@ -100,9 +100,9 @@
       \end{equation}
 	  where
 	  \begin{itemize}
-        \item $M_i$ is the number of components is state $i$
+        \item $M_i$ is the number of components in state $i$, I believe we also have $M_i = 3$
         \item $c_{ij}$ is the mixture coefficient for $j$-th mixture component in state $i$ such that $\sum_{j=1}^{M_i}
-        = 1$
+        c_{ij} = 1$
         \item $b_{ij}(O_t)$ is a $3$-D multivariate Gaussian density with mean $\mu_{ij}$ and covariance matrix
         $\Sigma_{ij}$
       \end{itemize}
