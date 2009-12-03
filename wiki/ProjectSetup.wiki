@@ -1,0 +1,52 @@
+#summary A fast setup of the project.
+#labels Featured,Phase-Requirements,Phase-Support
+
+= Project Setup =
+
+== Maven ==
+
+  # Download Maven [http://maven.apache.org/download.html]
+  # Setup Maven very quickly: [http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html]
+  # You need to define an environment variable *M2_HOME*; in *~/.bash_profile* or  *~/.profile*, add the following line:
+{{{
+export M2_HOME=/path/to/apache-maven
+export PATH=$PATH:$M2_HOME/bin
+}}}
+  # Create a directory under *M2_HOME/repo*
+  # Edit settings file under *M2_HOME/conf/settings.xml* and add a local repository:
+{{{
+   <localRepository>/path/to/apache-maven/repo</localRepository>
+}}} 
+  # Create a *symbolic link* the Maven repository by:
+{{{
+ln -s /path/to/apache-maven/repo ~/.m2/repository
+}}}
+
+== Eclipse + Maven Integration ==
+
+=== Maven Repository ===
+  
+  # You only need to define a *Classpath Variable* in eclipse to do so
+    * Go to *Window -> Preferences*
+    * In the left side tree, go to *Java -> Build Path -> Classpath Variables*
+    * Click *New...*
+    * Variable name would be *M2_REPO* and the value *~/.m2/repository*
+    * If you already have it then you're done.
+
+=== Maven Dependency Management ===
+
+To update the dependencies:
+
+  # Open a terminal and go to */path/to/eclipse/project*
+  # Run
+{{{
+mvn eclipse:eclipse
+}}}
+
+To have the dependency sources:
+  # Open a terminal and go to */path/to/eclipse/project*
+  # Run
+{{{
+mvn dependency:sources
+mvn eclipse:eclipse
+}}}
