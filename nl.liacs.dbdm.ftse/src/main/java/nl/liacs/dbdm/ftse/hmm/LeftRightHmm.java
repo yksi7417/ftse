@@ -33,7 +33,7 @@ public class LeftRightHmm<O extends Observation> extends Hmm<O> {
 	public LeftRightHmm(int delta, double[] pi, double[][] a, List<? extends Opdf<O>> opdfs) {
 		super(pi, a, opdfs);
 		this.delta = delta;
-		refineTrnsitionRules();
+		refineTransitionRules();
 	}
 
 	public LeftRightHmm(int nbStates, int delta, OpdfFactory<? extends Opdf<O>> opdfFactory) {
@@ -63,7 +63,7 @@ public class LeftRightHmm<O extends Observation> extends Hmm<O> {
 		super.setAij(i, j, value);
 	}
 
-	protected void refineTrnsitionRules() {
+	protected void refineTransitionRules() {
 		for (int i = 0; i < nbStates(); ++i) {
 			for (int j = 0; j < nbStates(); ++j) {
 				setAij(i, j, getAij(i, j));
