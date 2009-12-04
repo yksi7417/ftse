@@ -6,6 +6,7 @@
 package nl.liacs.dbdm.ftse.data.jdbc;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import nl.liacs.dbdm.ftse.model.FtseIndex;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class FtseJdbcManager extends JdbcDaoSupport {
 
 	private String insertQuery;
+	private String findAllQuery;
+	private String findByFromDateToDateQuery;
 
 	public FtseJdbcManager() {
 	}
@@ -74,8 +79,70 @@ public class FtseJdbcManager extends JdbcDaoSupport {
 		});
 	}
 
+	@Transactional
+	@SuppressWarnings("unchecked")
+	public List<FtseIndex> findAll() {
+		return getJdbcTemplate().query(findAllQuery, new RowMapper() {
+
+			@Override
+			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+				FtseIndex ftse = createFtseIndex(rs);
+				return ftse;
+			}
+		});
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<FtseIndex> findByFromDateToDate(final java.util.Date from, final java.util.Date to) {
+		return getJdbcTemplate().query(findByFromDateToDateQuery, new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, FtseUtils.getMySqlDateTime(from));
+				ps.setString(2, FtseUtils.getMySqlDateTime(to));
+			}
+
+		}, new RowMapper() {
+
+			@Override
+			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return createFtseIndex(rs);
+			}
+		});
+	}
+
+	@Transactional
+	public List<FtseIndex> findByFromDateToDate(String from, String to) {
+		return findByFromDateToDate(FtseUtils.getDate(from), FtseUtils.getDate(to));
+	}
+
 	public void setInsertQuery(String insertQuery) {
 		this.insertQuery = insertQuery;
+	}
+
+	public void setFindAllQuery(String findAllQuery) {
+		this.findAllQuery = findAllQuery;
+	}
+
+	public void setFindByFromDateToDateQuery(String findByFromDateToDateQuery) {
+		this.findByFromDateToDateQuery = findByFromDateToDateQuery;
+	}
+
+	protected FtseIndex createFtseIndex(ResultSet rs) throws SQLException {
+		Long id = rs.getLong(1);
+		java.util.Date date = rs.getDate(2);
+		Double open = rs.getDouble(3);
+		Double low = rs.getDouble(4);
+		Double high = rs.getDouble(5);
+		Double close = rs.getDouble(6);
+		Double volume = rs.getDouble(7);
+		Double adjClose = rs.getDouble(8);
+		FtseIndex ftse = new FtseIndex(date, open, low, high, close);
+		ftse.setId(id);
+		ftse.setVolume(volume);
+		ftse.setAdjClose(adjClose);
+		return ftse;
 	}
 
 }

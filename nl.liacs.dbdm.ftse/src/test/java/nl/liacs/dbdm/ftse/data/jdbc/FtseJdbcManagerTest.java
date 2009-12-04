@@ -36,7 +36,6 @@ public class FtseJdbcManagerTest extends AbstractTransactionalJUnit4SpringContex
 	@Resource
 	protected FtseJdbcManager ftseJdbcManager = null;
 
-	@Test
 	@Transactional(readOnly = false)
 	public void testSaveAll() throws Exception {
 		FTSEDownloader downloader = new FTSEDownloader();
@@ -54,6 +53,20 @@ public class FtseJdbcManagerTest extends AbstractTransactionalJUnit4SpringContex
 		ftse.setHigh(1000.);
 		ftse.setClose(1000.);
 		ftseJdbcManager.save(ftse);
+	}
+
+	@Test
+	@Transactional
+	public void testFindAll() throws Exception {
+		List<FtseIndex> all = ftseJdbcManager.findAll();
+		logger.warn("All size: " + all.size());
+	}
+
+	@Test
+	@Transactional
+	public void testFindByFromDateToDate() throws Exception {
+		List<FtseIndex> all = ftseJdbcManager.findByFromDateToDate("2000-01-01", "2001-01-01");
+		logger.warn(all);
 	}
 
 	public void setFtseJdbcManager(FtseJdbcManager ftseJdbcManager) {
