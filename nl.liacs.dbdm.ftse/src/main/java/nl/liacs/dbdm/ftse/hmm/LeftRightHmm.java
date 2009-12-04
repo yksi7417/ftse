@@ -16,9 +16,8 @@ import be.ac.ulg.montefiore.run.jahmm.OpdfFactory;
  * 
  * Also known as Baskin HMM. The rules of transition in a left right HMM is:
  * <ol>
- * <li><code>a(i, i) = 0</code></li>
- * <li><code>a(i, i) = 0</code> if <code>i < j</code></li>
- * <li><code>a(i, j) = 0</code> if <code>i > j + DELTA</code></li>
+ * <li><code>a(i, i) = 0</code> if <code>j < i</code></li>
+ * <li><code>a(i, j) = 0</code> if <code>j > i + DELTA</code></li>
  * </ol>
  * 
  * 
@@ -53,15 +52,11 @@ public class LeftRightHmm<O extends Observation> extends Hmm<O> {
 
 	@Override
 	public void setAij(int i, int j, double value) {
-		if (i == j) {
+		if (j < i) {
 			super.setAij(i, j, 0);
 			return;
 		}
-		if (i < j) {
-			super.setAij(i, j, 0);
-			return;
-		}
-		if (i > j + delta) {
+		if (j > i + delta) {
 			super.setAij(i, j, 0);
 			return;
 		}
