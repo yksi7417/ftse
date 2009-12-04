@@ -32,6 +32,16 @@
 			<![CDATA[insert into ftse (ftse_date, ftse_open, ftse_low, ftse_high, ftse_close, ftse_volume, ftse_adj_close) values(?, ?, ?, ?, ?, ?, ?)]]>
 			</value>
 		</property>
+		<property name="findAllQuery">
+			<value>
+			<![CDATA[select * from ftse]]>
+			</value>
+		</property>
+		<property name="findByFromDateToDateQuery">
+			<value>
+			<![CDATA[select * from ftse where ftse_date between ? and ?]]>
+			</value>
+		</property>
 	</bean>
 
 </beans>

@@ -46,4 +46,12 @@ public class FtseUtils {
 		return mysqlDateFormat.format(d) + " 00:00:00";
 	}
 
+	public static Date getDate(String dateString) {
+		try {
+			return dateFormat.parse(dateString);
+		} catch (ParseException e) {
+		}
+		return null;
+	}
+
 }

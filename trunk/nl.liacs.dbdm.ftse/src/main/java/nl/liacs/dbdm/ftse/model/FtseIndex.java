@@ -41,6 +41,7 @@ public class FtseIndex extends ObservationVector implements Serializable, Compar
 
 	public FtseIndex(Date date, Double open, Double low, Double high, Double close) {
 		this(new double[] { open, low, high, close });
+		setDate(date);
 	}
 
 	public FtseIndex(double[] value) {

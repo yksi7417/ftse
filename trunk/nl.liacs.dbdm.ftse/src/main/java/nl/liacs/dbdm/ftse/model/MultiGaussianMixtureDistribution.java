@@ -29,7 +29,7 @@ public class MultiGaussianMixtureDistribution implements MultiRandomDistribution
 	 * 
 	 * @param mgds
 	 * @param proportions
-	 *            We assume that all states use the same proportions.
+	 *            We assume that all rows use the same proportions.
 	 */
 	public MultiGaussianMixtureDistribution(MultiGaussianDistribution[] mgds, double[] proportions) {
 		distributions = mgds;
@@ -66,13 +66,12 @@ public class MultiGaussianMixtureDistribution implements MultiRandomDistribution
 
 	public double[] generate() {
 		double r = RANDOM.nextDouble();
-		for (int i = 0; i < distributions.length; ++i) {
+		for (int i = 0; i < proportions.length; ++i) {
 			double sum = 0.;
-			double[] dimRandom = distributions[i].generate();
-			for (int j = 0; j < proportions[i].length; ++j) {
-				sum += proportions[i][j];
+			for (int j = 0; j < distributions.length; ++j) {
+				sum += proportions[j][i];
 				if (r <= sum) {
-					return dimRandom;
+					return distributions[i].generate();
 				}
 
 			}
@@ -80,7 +79,6 @@ public class MultiGaussianMixtureDistribution implements MultiRandomDistribution
 		throw new RuntimeException("Internal Error");
 	}
 
-	// TODO
 	public double probability(double[] v) {
 		double sum = 0.;
 		for (int i = 0; i < distributions.length; ++i) {
