@@ -39,11 +39,13 @@ public class LeftRightHmm<O extends Observation> extends Hmm<O> {
 	public LeftRightHmm(int nbStates, int delta, OpdfFactory<? extends Opdf<O>> opdfFactory) {
 		super(nbStates, opdfFactory);
 		this.delta = delta;
+		refineTransitionRules();
 	}
 
 	public LeftRightHmm(int nbStates, int delta) {
 		super(nbStates);
 		this.delta = delta;
+		refineTransitionRules();
 	}
 
 	public Integer getDelta() {
