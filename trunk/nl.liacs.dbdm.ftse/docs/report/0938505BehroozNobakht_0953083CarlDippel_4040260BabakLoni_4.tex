@@ -82,20 +82,20 @@ this assignment, we tried to take advantage of Hidden Markov Models to analyze, 
 having the past data.
 \end{abstract}
 
-\keywords{Data Mining, Stock Market Analaysis, Prediction, Knowledge Discovery, Hidden Markov Models}
+\keywords{Data Mining, Stock Market Analysis, Prediction, Knowledge Discovery, Hidden Markov Models}
 
 \section{Introduction}
 Stock market analysis and prediction is of great significance for many professionals in the fields of finance and stock
 exchange. In this assignment, we are supposed to predict future stock data using the past data. This report tries to
 summarizes the experiments in this regard.
 
-Section \ref{sec:pdef} briefly introdues the problem. Sections \ref{sec:hmm} and \ref{sec:hmm_probs} try to shortly
+Section \ref{sec:pdef} briefly introduces the problem. Sections \ref{sec:hmm} and \ref{sec:hmm_probs} try to shortly
 introduce how Hidden Markov Models can be used in such a problem.
 
-Section \ref{sec:approach} dicusses in detail the overal approach we took in this assignment. Section \ref{sec:data}
+Section \ref{sec:approach} discusses in detail the overall approach we took in this assignment. Section \ref{sec:data}
 talks about the data retrieval; Section \ref{sec:stats} provides a brief statistical report on the data; Section
-\ref{sec:train} discuesses the details of training the HMM; Sections \ref{sec:likelihood} and \ref{sec:pred} present
-the algorithms to compute likelihoods and predction criteria. 
+\ref{sec:train} discusses the details of training the HMM; Sections \ref{sec:likelihood} and \ref{sec:pred} present
+the algorithms to compute likelihoods and prediction criteria. 
 
 Section \ref{sec:results} provides the experiments' results and Section \ref{sec:impl} talks about the technology and
 implementation overview of the experiments. Finally, Section \ref{sec:future} proposes some future works into the
@@ -104,12 +104,12 @@ problem.
 \section{Problem Definition} \label{sec:pdef}
 As \cite{erwin:pa4} mentions, through this experiment, we try to take advantage of Hidden Markov Models (HMM) to address
 some interesting problems regarding stock market analysis. Specifically, stock market index prediction is done in this
-assginemnt. First, a set of past data is loaded and analyzed; then, an HMM is modelled and trained for the problem
+assignment. First, a set of past data is loaded and analyzed; then, an HMM is modelled and trained for the problem
 model. Afterwards, similar past data are distinguished and used to predict future stock market values.
 
 Stock market data that are used in this assignment are the data from \textbf{FTSE 100 INDEX} that is an index over the
 stock data in UK. Basically, each stock market data is a quadruple $(open, low, high, close)$ carrying the meaning that
-each day the stock market starts its activity, it starts with some \textit{openning} after which during the day it
+each day the stock market starts its activity, it starts with some \textit{opening} after which during the day it
 reaches its \textit{highest} or drops down to its \textit{lowest} of the days and then it will stop with a
 \textit{close} value. Such data seems to be very sensitive for stock workers and business shareholders to predict
 future stock trends.
@@ -146,7 +146,7 @@ Technically, an HMM denoted as $\lambda$ is considered as the triple:
 \end{equation} 
 
 \subsection{Continuous HMM}
-In some applications such as stock market analysis or speech recognition, the obeservations are not from of a
+In some applications such as stock market analysis or speech recognition, the observations are not from of a
 \textit{discrete} space; this would make the discrete observation $O_t$ to some $\vec{O}_t$ in each state meaning that
 in each state a series of observations could be received.
 
@@ -155,7 +155,7 @@ Specifically, the observation vector in our assignment would be:
 \vec{O}_t = (opening, low, high, close)
 \end{equation} 
 which are the values of the stock index. Usually, for such HMM's, the representation for the probability density
-function (pdf) that is used is a mixture of higher-dimensional Gaussian distribuion:
+function (pdf) that is used is a mixture of higher-dimensional Gaussian distribution:
 \begin{equation} \label{eq:mmgd}
 b_j(\vec{O}_t) = \sum_{m=1}^{M} c_{jm} \times N(\vec{O}_t, \vec{\mu}_{jm}, \Sigma_{jm})
 \end{equation}
@@ -210,6 +210,19 @@ In stock market analysis and prediction, we are facing the first and the third p
 the problem (3) and prediction is achieved with problem (1).
 
 \section{Approach} \label{sec:approach}
+As the problem of the prediction could be complex and lengthy, a series of actions and activities in the form of
+several phases was considered to break down the problem to conquer the complexity. Figure \ref{fig:appoverview} 
+depicts the overall process that is considered when solving the problem. Additionally, the following section will 
+discuss each of the the phases in more details.
+
+\begin{figure}[h] 
+\centering
+\setlength\fboxsep{0.1pt}
+\setlength\fboxrule{0.7pt}
+\fbox{\includegraphics[scale=0.35]{ApproachOverview.png}}
+\caption{Process Overview} \label{fig:appoverview}
+\end{figure}
+
 
 \subsection{Stock Data Retrieval} \label{sec:data} 
 There are a number of sources of stock and financial data on web including Google Finance and Yahoo! Finance. In the
@@ -233,23 +246,23 @@ close)$, the following settings and considerations have been taken into account:
 \begin{enumerate}
   \item \textbf{States:} in the experiments, we have $N = 4$; intuitively, it is denoting the stages in time that are
   allowed in different transitions in the HMM training.
-  \item \textbf{Dimensions:} as a mixture of multivariate Gaussian is utilized in this probelm, we have $D = 4$ as the
+  \item \textbf{Dimensions:} as a mixture of multivariate Gaussian is utilized in this problem, we have $D = 4$ as the
   observation vector for each stock date is as $(open, low, high, close)$.
   \item \textbf{Mixtures:} \cite{hassan:hmm_stock} proposes to have $M = 3$.
   \item \textbf{Left-Right Delta:} experimentally, we have tried $\Delta = 1$ and $\Delta = 3$.
-  \item \textbf{Prior Probability:} Adhering to the left-right hmm, we have $\pi = (1, 0, 0, 0)$.
+  \item \textbf{Prior Probability:} Adhering to the left-right HMM, we have $\pi = (1, 0, 0, 0)$.
   \item \textbf{HMM Training:} According to \cite{hassan:hmm_stock,rabiner:hmm}, we need to use Baum-Welch Learning
   Algorithm to train the HMM. Baum-Welch training algorithms does its job based on a number of \textit{iterations} to
-  tune and update the parameters of the model, namely the transition probablity $B$. 
+  tune and update the parameters of the model, namely the transition probability $B$. 
 \end{enumerate}
 
 \subsection{Likelihood Update} \label{sec:likelihood}
 In the path to prediction, first, there is a need to find the most similar day in stock market data for a specific day
 so that it could be used to predict the following day's close value. To do so, first, we need to compute the
-likelihood of previous days in the desired range. When having one day's stock data, it is straighforward to compute
+likelihood of previous days in the desired range. When having one day's stock data, it is straightforward to compute
 the likelihood of that specific day from the HMM. This is Problem (2) in Section \ref{sec:hmm_probs} which is computed using
 \textbf{Forward Backward Algorithm} proposed in \cite{rabiner:hmm,erwin:datamining,wiki:hmm}. Algorithm
-\ref{alg:likelihood} overally depicts the method to compute likelihoods.
+\ref{alg:likelihood} overalls depicts the method to compute likelihoods.
 
 \begin{algorithm}[h] 
 \caption{Likelihood Update Algorithm} \label{alg:likelihood}
@@ -268,13 +281,13 @@ the likelihood of that specific day from the HMM. This is Problem (2) in Section
 \end{algorithm}
 
 \subsection{Prediction} \label{sec:pred}
-When the likelihood probablities of different days are computed, the last phase would be to predict some day's close
+When the likelihood probabilities of different days are computed, the last phase would be to predict some day's close
 value as the target of this experiment. To do so, we introduce a parameter \textbf{likelihood tolerance} denoting the
 similarity neighborhood that we can accept similar days to the previous day. Through using the likelihood tolerance, we
 fetch a list of similar days to yesterday's stock data and then we try to find the best guess as the one that has the
 highest likelihood of all. In this experiment, we used the likelihood tolerance value in range \boldmath{[0.001, 0.01]}
 From this point, prediction is straightforward with calculating the difference of the similar day and yesterday's
-values and then calculating tomorrow's close value. Algorithm \ref{alg:prediction} shows the overall pseudocode used
+values and then calculating tomorrow's close value. Algorithm \ref{alg:prediction} shows the overall pseudo-code used
 for prediction. Along with prediction computation, we calculate also the \textbf{MAPE} (Mean Average Percentage
 Error) measure.
 
@@ -285,7 +298,7 @@ Error) measure.
 \REQUIRE {Prediction Days $days$}
 \REQUIRE {Likelihood Tolerate $tolerance$}
 \STATE $ sum \gets 0 $
-\STATE $ date \gets start_date $
+\STATE $ date \gets start\_date $
 \FOR {$i = 1$ to $days$}
 \STATE $ yesterday \gets yesterday(date) $
 \STATE $ O_y \gets load(yesterday) $
@@ -326,7 +339,7 @@ $tolerance$ & The Likelihood Tolerance & $0.01$ \\ \hline
 \setlength\fboxsep{0.1pt}
 \setlength\fboxrule{0.7pt}
 \fbox{\includegraphics[scale=0.65]{2007-01-01___2009-09-28___1000.png}}
-\caption{Predicted vs. Actual ``close'' values from $2007-01-01$ for $1000$ days} \label{fig:res1}
+\caption{Predicted vs. Actual ``close'' values from $2007/01/01$ for $1000$ days} \label{fig:res1}
 \end{figure*}
 
 \section{Implementation} \label{sec:impl}
@@ -355,15 +368,30 @@ This project is available under \textit{Apache License Version 2.0} in \cite{fts
 how to get the source and run the project is available at \cite{ftse:wiki}.
 
 \subsection{Application Architecture}
+It has been tried to develop a simple but extensible application for the purposes in this assignment. Very briefly,
+Figure \ref{fig:apparch} depicts the overall architecture that has been adopted in the development of the application.
 
+\begin{figure}[h] 
+\centering
+\setlength\fboxsep{0.1pt}
+\setlength\fboxrule{0.7pt}
+\fbox{\includegraphics[scale=0.35]{AppArchitecture.png}}
+\caption{Application Architecture Overview} \label{fig:apparch}
+\end{figure}
 
 \section{Future Works} \label{sec:future}
+As it is revealing, we have been successful rough estimation of the future data required in the project. Though, the
+quality of ``\textbf{preciseness}'' becomes more significant as the sensitiveness of the data rises. Thus, regarding
+the work that has been done, for future, one of the ideas to apply to gain better quality is to consider
+\textit{weighted} ranking of the most similar past data in search for the likelihood tolerance. Intuitively, it will
+somehow try to control the deviation from the actual values that are seen over time. Additionally, further boundary
+checks could be applied to the predicted data to prevent undesired deviations in the predictions
 
 %\lstinputlisting[label=lst:removeatt,caption=Attribute removal]{removeatt.sh}
 
 \section{Acknowledgments} \label{sec:ack}
-We would like to thank Orr Shomroni and Alexey Gritsenko. Our conversations have been a source for inspiration
-and were able to contribute (directly and indirectly) to the quality of the report.
+We would like to express our thanks to Hossein Rahmani with whom we had some discussions on the problem; even though
+they were brief yet so intuitive.
 
 \bibliographystyle{plain}
 \bibliography{references}
