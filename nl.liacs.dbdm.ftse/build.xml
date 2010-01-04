@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="FTSE" default="build" basedir=".">
+
+	<property name="gwt.sdk" location="/media/D/dev/apache-maven-2.1.0/repo/com/google/gwt" />
+	<property name="gwt.module.name" value="nl.liacs.dbdm.ftse.ui.FtseModule" />
+	<property name="gwt.war" value="${basedir}/src/main/webapp/gwt/" />
+
+	<path id="project.class.path">
+		<pathelement location="${basedir}/target/classes" />
+		<pathelement location="${basedir}/src/main/java" />
+		<fileset dir="${gwt.sdk}" includes="**/2.0.0/*.jar" />
+		<fileset dir="${gwt.sdk}" includes="**/1.0.2/*.jar" />
+	</path>
+
+	<target name="gwtc" depends="clean" description="GWT compile to JavaScript">
+		<mkdir dir="${gwt.war}" />
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<pathelement location="src" />
+				<path refid="project.class.path" />
+			</classpath>
+			<!-- add jvmarg -Xss16M or similar if you see a StackOverflowError -->
+			<jvmarg value="-Xmx256M" />
+			<!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
+			<arg value="${gwt.module.name}" />
+			<arg value="-war" />
+			<arg value="${gwt.war}" />
+		</java>
+	</target>
+
+	<target name="devmode" description="Run development mode">
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.DevMode">
+			<classpath>
+				<pathelement location="src" />
+				<path refid="project.class.path" />
+			</classpath>
+			<jvmarg value="-Xms512M" />
+			<jvmarg value="-Xmx512M" />
+			<arg value="-war" />
+			<arg value="${gwt.war}" />
+			<arg value="-logLevel" />
+			<arg value="DEBUG" />
+			<arg value="-startupUrl" />
+			<arg value="index.html" />
+			<arg value="${gwt.module.name}" />
+		</java>
+	</target>
+
+	<target name="build" depends="gwtc" description="Build this project" />
+
+	<target name="clean" description="Cleans this project">
+		<delete dir="${gwt.war}" />
+	</target>
+
+</project>
