@@ -5,6 +5,8 @@
  */
 package nl.liacs.dbdm.ftse.ui.client;
 
+import java.util.Date;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -20,5 +22,9 @@ public interface FtseServiceAsync {
 	void updateLikelihoods(LikelihoodOptions options, AsyncCallback<String> callback);
 
 	void predict(PredictionOptions options, AsyncCallback<PredictionResult> callback);
+
+	void clearData(AsyncCallback<String> loadDataResetButtonCallback);
+
+	void loadData(Date from, Date to, AsyncCallback<String> loadDataButtonCallback);
 
 }

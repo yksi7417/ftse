@@ -5,6 +5,8 @@
  */
 package nl.liacs.dbdm.ftse.ui.server;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import nl.liacs.dbdm.ftse.learn.FtseStockService;
@@ -47,6 +49,26 @@ public class FtseController extends BaseSpringGwtController implements FtseServi
 	@Override
 	public String updateLikelihoods(LikelihoodOptions options) {
 		return service.updateLikelihoods(options);
+	}
+
+	@Override
+	public String clearData() {
+		try {
+			service.clearData();
+			return "Data reset complete";
+		} catch (Exception e) {
+		}
+		return "Data reset failed";
+	}
+
+	@Override
+	public String loadData(Date from, Date to) {
+		try {
+			service.loadData(from, to);
+			return "Load data complete";
+		} catch (Exception e) {
+		}
+		return "Failed to load data!";
 	}
 
 	public void setService(FtseStockService service) {

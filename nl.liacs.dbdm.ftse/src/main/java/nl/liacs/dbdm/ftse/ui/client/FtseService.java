@@ -5,6 +5,8 @@
  */
 package nl.liacs.dbdm.ftse.ui.client;
 
+import java.util.Date;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -24,5 +26,9 @@ public interface FtseService extends RemoteService {
 	String updateLikelihoods(LikelihoodOptions options);
 
 	PredictionResult predict(PredictionOptions options);
+
+	String clearData();
+
+	String loadData(Date from, Date to);
 
 }

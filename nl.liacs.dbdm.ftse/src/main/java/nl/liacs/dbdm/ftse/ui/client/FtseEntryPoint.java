@@ -44,6 +44,15 @@ public class FtseEntryPoint implements EntryPoint {
 	private VerticalPanel contentPanel;
 	private TabPanel contentTabPanel;
 
+	// Load Data Widgets
+	private VerticalPanel loadDataPanel;
+	private DateWidget loadDataFromDateWidget;
+	private DateWidget loadDataToDateWidget;
+	private Button loadDataResetButton;
+	private Button loadDataButton;
+	private AsyncCallback<String> loadDataResetButtonCallback;
+	private AsyncCallback<String> loadDataButtonCallback;
+
 	// Training Widgets
 	private VerticalPanel trainingPanel;
 	private DateWidget trainingDateWidget;
@@ -103,6 +112,7 @@ public class FtseEntryPoint implements EntryPoint {
 	private Panel initContentPanel() {
 		contentTabPanel = new TabPanel();
 		contentTabPanel.setWidth("100%");
+		contentTabPanel.add(initLoadDataPanel(), "Load Data");
 		contentTabPanel.add(initTrainingPanel(), "Train");
 		contentTabPanel.add(initLikelihoodPanel(), "Likelihood");
 		contentTabPanel.add(initPredictionPanel(), "Predict");
@@ -113,6 +123,68 @@ public class FtseEntryPoint implements EntryPoint {
 		contentPanel.add(contentTabPanel);
 
 		return contentPanel;
+	}
+
+	private Panel initLoadDataPanel() {
+		loadDataPanel = new VerticalPanel();
+
+		loadDataFromDateWidget = new DateWidget();
+		loadDataFromDateWidget.setValue("2005-01-01");
+
+		loadDataToDateWidget = new DateWidget();
+		loadDataToDateWidget.setValue("2009-12-01");
+
+		loadDataButton = new Button("Load Data");
+		loadDataButtonCallback = new AsyncCallback<String>() {
+			@Override
+			public void onSuccess(String result) {
+				Window.alert(result);
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+				Window.alert(t.getMessage());
+			}
+		};
+		loadDataButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent e) {
+				service.loadData(loadDataFromDateWidget.getValue(), loadDataToDateWidget.getValue(),
+						loadDataButtonCallback);
+			}
+		});
+
+		loadDataResetButton = new Button("Clear Data");
+		loadDataResetButtonCallback = new AsyncCallback<String>() {
+			@Override
+			public void onSuccess(String result) {
+				Window.alert(result);
+			}
+
+			@Override
+			public void onFailure(Throwable e) {
+				Window.alert(e.getMessage());
+			}
+		};
+		loadDataResetButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent e) {
+				service.clearData(loadDataResetButtonCallback);
+			}
+		});
+
+		HorizontalPanel holder = new HorizontalPanel();
+		holder.add(new Label("Load data from: "));
+		holder.add(loadDataFromDateWidget);
+		holder.add(new Label("Load data to: "));
+		holder.add(loadDataToDateWidget);
+		HorizontalPanel holder2 = new HorizontalPanel();
+		holder2.add(loadDataResetButton);
+		holder2.add(loadDataButton);
+		loadDataPanel.add(holder);
+		loadDataPanel.add(holder2);
+
+		return loadDataPanel;
 	}
 
 	private Panel initTrainingPanel() {

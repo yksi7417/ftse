@@ -34,6 +34,11 @@
 			<![CDATA[insert into ftse (ftse_date, ftse_open, ftse_low, ftse_high, ftse_close, ftse_volume, ftse_adj_close) values(?, ?, ?, ?, ?, ?, ?)]]>
 			</value>
 		</property>
+		<property name="deleteQuery">
+			<value>
+			<![CDATA[delete from ftse]]>
+			</value>
+		</property>
 		<property name="findAllQuery">
 			<value>
 			<![CDATA[select * from ftse]]>
@@ -66,6 +71,11 @@
 		<property name="updateQuery">
 			<value>
 			<![CDATA[update ftse_likelihood set likelihood = ? where ftse_date = ?]]>
+			</value>
+		</property>
+		<property name="deleteQuery">
+			<value>
+			<![CDATA[delete from ftse_likelihood]]>
 			</value>
 		</property>
 		<property name="likelihoodByDateQuery">
@@ -115,6 +125,8 @@
 		<property name="trainer" ref="trainer" />
 		<property name="likelihoodService" ref="ftseLikelihoodService" />
 		<property name="predictor" ref="predictor" />
+		<property name="ftseLikelihoodJdbcManager" ref="ftseLikelihoodManager" />
+		<property name="ftseJdbcManager" ref="ftseJdbcManager" />
 	</bean>
 
 </beans>
