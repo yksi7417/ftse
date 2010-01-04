@@ -1,0 +1,28 @@
+#summary How to simply run the project
+#labels Featured,Phase-Deploy
+
+Before you can deploy and run the project you need to have setup the database required for the application. Also, it is assumed that you configured your eclipse with Maven.
+
+= GWT Compile =
+
+Before you could deploy and run the project, you need to *compile* the GWT user interface of the application. To do so:
+  # Open the project in eclipse.
+  # Through *Ant* view in eclipse, load the *build.xml* in the project
+  # Run the task named *gwtc*.
+
+= Deploy and Run =
+To run the application:
+  # Open a console and go to your project root in console
+{{{
+cd /path/to/project
+}}}
+  # First, it would be nice to clean the workspace
+{{{
+mvn clean
+}}}
+  # You can easily deploy and run:
+{{{
+mvn tomcat:run
+}}}
+  # To test the application go to [http://localhost:8080/dbdm-ftse/gwt/nl.liacs.dbdm.ftse.ui.FtseModule/index.html]
+
