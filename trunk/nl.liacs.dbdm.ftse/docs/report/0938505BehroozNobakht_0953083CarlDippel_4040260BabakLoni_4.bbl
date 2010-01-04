@@ -1,0 +1,65 @@
+\begin{thebibliography}{10}
+
+\bibitem{erwin:pa4}
+Erwin Bakker.
+\newblock Databases \& data mining assignment 4, 2009.
+\newblock \url{http://www.liacs.nl/~erwin/dbdm2009/assignment04.pdf}.
+
+\bibitem{erwin:datamining}
+Erwin Bakker.
+\newblock Databases \& data mining lecture notes, 2009.
+\newblock \url{http://www.liacs.nl/~erwin/dbdm2009/}.
+
+\bibitem{ftse}
+Babak~Loni Behrooz~Nobakht, Carl-Edward Joseph~Dippel.
+\newblock Ftse google project, 2009.
+\newblock \url{http://code.google.com/p/ftse/}.
+
+\bibitem{ftse:wiki}
+Babak~Loni Behrooz~Nobakht, Carl-Edward Joseph~Dippel.
+\newblock Ftse wiki, 2009.
+\newblock \url{http://code.google.com/p/ftse/w/list}.
+
+\bibitem{blunsom:hmm_tut}
+Phil Blunsom.
+\newblock Hidden markov models, 2004.
+
+\bibitem{gpds:hmm_tut}
+Sebastien David, Miguel~A. Ferrer, Carlos~M. Travieso, and Jesus~B. Alonso.
+\newblock gpdshmm: A hidden markov model toolbox in the matlab environment.
+
+\bibitem{jahmm}
+Jean-Marc François.
+\newblock Jahmm, 2009.
+\newblock \url{http://code.google.com/p/jahmm/}.
+
+\bibitem{hassan:phd_ths}
+Rafiul Hassan.
+\newblock Phd thesis: Hybrid hmm and soft computing modeling with applications
+  to time series analysis.
+\newblock {\em Computer Science and Software Engineering Department, University
+  of Melbourne, Australia}, 2007.
+
+\bibitem{hassan:hmm_stock_fuzzy}
+Rafiul Hassan.
+\newblock A combination of hidden markov model and fuzzy model for stock market
+  forecasting.
+\newblock {\em Elsevier}, 2009.
+
+\bibitem{hassan:hmm_stock}
+Rafiul Hassan and Baikunth Nath.
+\newblock Stockmarket forecasting using hidden markov model: A new approach.
+\newblock {\em IEEE Computer Society}, 2005.
+
+\bibitem{rabiner:hmm}
+Lawrence~R. Rabiner.
+\newblock A tutorial on hidden markov models and selected applications in
+  speech recognition.
+\newblock {\em Proceedings of IEEE}, 1989.
+
+\bibitem{wiki:hmm}
+Wikipedia.
+\newblock Hidden markov model, 2009.
+\newblock \url{http://en.wikipedia.org/wiki/Hidden_Markov_model}.
+
+\end{thebibliography}
