@@ -5,6 +5,7 @@
  */
 package nl.liacs.dbdm.ftse.hmm;
 
+import java.util.Arrays;
 import java.util.List;
 
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
@@ -42,9 +43,29 @@ public class LeftRightHmm<O extends Observation> extends Hmm<O> {
 		refineTransitionRules();
 	}
 
+	public LeftRightHmm(int nbStates, int delta, List<? extends Opdf<O>> opdfs) {
+		super(nbStates);
+		setOpdfs(opdfs);
+		this.delta = delta;
+		initDefaultPis(nbStates);
+		refineTransitionRules();
+	}
+
 	public LeftRightHmm(int nbStates, int delta) {
 		super(nbStates);
 		this.delta = delta;
+		refineTransitionRules();
+	}
+
+	public LeftRightHmm(Hmm<O> hmm, int delta) {
+		this(hmm.nbStates(), delta);
+		for (int i = 0; i < nbStates(); ++i) {
+			setPi(i, hmm.getPi(i));
+			setOpdf(i, hmm.getOpdf(i));
+			for (int j = 0; j < nbStates(); ++j) {
+				setAij(i, j, hmm.getAij(i, j));
+			}
+		}
 		refineTransitionRules();
 	}
 
@@ -65,12 +86,54 @@ public class LeftRightHmm<O extends Observation> extends Hmm<O> {
 		super.setAij(i, j, value);
 	}
 
+	public void setOpdfs(Opdf<O>[] opdfs) {
+		for (int i = 0; i < nbStates(); ++i) {
+			setOpdf(i, opdfs[i]);
+		}
+	}
+
+	public void setOpdfs(List<? extends Opdf<O>> opdfs) {
+		setOpdfs(opdfs.toArray(new Opdf[opdfs.size()]));
+	}
+
+	public void setPis(double[] pis) {
+		for (int i = 0; i < nbStates(); ++i) {
+			setPi(i, pis[i]);
+		}
+	}
+
+	public void setPis(List<Double> pis) {
+		int i = 0;
+		for (Double pi : pis) {
+			setPi(i++, pi);
+		}
+	}
+
 	protected void refineTransitionRules() {
 		for (int i = 0; i < nbStates(); ++i) {
 			for (int j = 0; j < nbStates(); ++j) {
-				setAij(i, j, getAij(i, j));
+				this.setAij(i, j, this.getAij(i, j));
 			}
 		}
+	}
+
+	protected void initDefaultPis(int nbStates) {
+		double[] pis = new double[nbStates];
+		Arrays.fill(pis, 1. / nbStates);
+		setPis(pis);
+	}
+
+	@Override
+	public Hmm<O> clone() throws CloneNotSupportedException {
+		LeftRightHmm<O> hmm = new LeftRightHmm<O>(nbStates(), delta);
+		for (int i = 0; i < nbStates(); i++) {
+			hmm.setPi(i, this.getPi(i));
+			hmm.setOpdf(i, this.getOpdf(i).clone());
+			for (int j = 0; j < nbStates(); ++j) {
+				hmm.setAij(i, j, this.getAij(i, j));
+			}
+		}
+		return hmm;
 	}
 
 }

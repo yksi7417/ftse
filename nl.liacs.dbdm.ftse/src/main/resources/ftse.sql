@@ -26,8 +26,20 @@ DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
 
+-- -----------------------------------------------------
+-- Table `ftse`.`ftse_likelihood`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ftse`.`ftse_likelihood` ;
+
+CREATE  TABLE IF NOT EXISTS `ftse`.`ftse_likelihood` (
+  `likelihood_id` INT NOT NULL AUTO_INCREMENT ,
+  `ftse_date` DATETIME NOT NULL ,
+  `ftse_likelihood` DOUBLE NOT NULL ,
+  PRIMARY KEY (`likelihood_id`) )
+ENGINE = InnoDB;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-

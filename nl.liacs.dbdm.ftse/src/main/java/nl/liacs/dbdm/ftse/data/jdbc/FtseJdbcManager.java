@@ -8,9 +8,13 @@ package nl.liacs.dbdm.ftse.data.jdbc;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import nl.liacs.dbdm.ftse.model.FtseIndex;
+import nl.liacs.dbdm.ftse.model.FtseIndexTimeComparator;
+import nl.liacs.dbdm.ftse.utils.FtseUtils;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -30,6 +34,8 @@ public class FtseJdbcManager extends JdbcDaoSupport {
 	private String insertQuery;
 	private String findAllQuery;
 	private String findByFromDateToDateQuery;
+	private String findByDateQuery;
+	private String findNextByDateQuery;
 
 	public FtseJdbcManager() {
 	}
@@ -99,8 +105,8 @@ public class FtseJdbcManager extends JdbcDaoSupport {
 
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
-				ps.setString(1, FtseUtils.getMySqlDateTime(from));
-				ps.setString(2, FtseUtils.getMySqlDateTime(to));
+				ps.setString(1, FtseUtils.getMySqlDateTimeString(from));
+				ps.setString(2, FtseUtils.getMySqlDateTimeString(to));
 			}
 
 		}, new RowMapper() {
@@ -114,7 +120,52 @@ public class FtseJdbcManager extends JdbcDaoSupport {
 
 	@Transactional
 	public List<FtseIndex> findByFromDateToDate(String from, String to) {
+		if (from.equals(to)) {
+			return findByDate(from);
+		}
 		return findByFromDateToDate(FtseUtils.getDate(from), FtseUtils.getDate(to));
+	}
+
+	@Transactional
+	public List<FtseIndex> findByDate(String date) {
+		return findByDate(FtseUtils.getDate(date));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<FtseIndex> findByDate(final Date date) {
+		return getJdbcTemplate().query(findByDateQuery, new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, FtseUtils.getMySqlDateTimeString(date));
+			}
+		}, new RowMapper() {
+			@Override
+			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return createFtseIndex(rs);
+			}
+		});
+	}
+
+	@SuppressWarnings("unchecked")
+	public FtseIndex findNextByDate(final Date date) {
+		List result = getJdbcTemplate().query(findNextByDateQuery, new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, FtseUtils.getMySqlDateTimeString(date));
+			}
+		}, new RowMapper() {
+
+			@Override
+			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return createFtseIndex(rs);
+			}
+		});
+		if (result == null || result.isEmpty()) {
+			return null;
+		}
+		Collections.sort(result, FtseIndexTimeComparator.INSTANCE);
+		return (FtseIndex) result.get(0);
 	}
 
 	public void setInsertQuery(String insertQuery) {
@@ -129,7 +180,15 @@ public class FtseJdbcManager extends JdbcDaoSupport {
 		this.findByFromDateToDateQuery = findByFromDateToDateQuery;
 	}
 
-	protected FtseIndex createFtseIndex(ResultSet rs) throws SQLException {
+	public void setFindByDateQuery(String findByDateQuery) {
+		this.findByDateQuery = findByDateQuery;
+	}
+
+	public void setFindNextByDateQuery(String findNextByDateQuery) {
+		this.findNextByDateQuery = findNextByDateQuery;
+	}
+
+	protected static FtseIndex createFtseIndex(ResultSet rs) throws SQLException {
 		Long id = rs.getLong(1);
 		java.util.Date date = rs.getDate(2);
 		Double open = rs.getDouble(3);
