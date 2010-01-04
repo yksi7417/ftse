@@ -1,4 +1,4 @@
-#summary How to fetch source of the project
+#summary How to fetch the source
 #labels Featured,Phase-Implementation
 
 = Eclipse =
