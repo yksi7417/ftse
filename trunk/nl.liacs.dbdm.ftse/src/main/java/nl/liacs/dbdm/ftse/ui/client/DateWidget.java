@@ -103,4 +103,13 @@ public class DateWidget extends Composite {
 		return picker.getValue();
 	}
 
+	public void setValue(String date) {
+		try {
+			Date value = format.parse(date);
+			picker.setValue(value);
+			text.setValue(date);
+		} catch (IllegalArgumentException e) {
+		}
+	}
+
 }

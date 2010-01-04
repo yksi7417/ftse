@@ -36,6 +36,7 @@ public class FtseJdbcManager extends JdbcDaoSupport {
 	private String findByFromDateToDateQuery;
 	private String findByDateQuery;
 	private String findNextByDateQuery;
+	private String deleteQuery;
 
 	public FtseJdbcManager() {
 	}
@@ -83,6 +84,11 @@ public class FtseJdbcManager extends JdbcDaoSupport {
 				return all.size();
 			}
 		});
+	}
+
+	@Transactional(readOnly = false)
+	public void clearData() {
+		getJdbcTemplate().update(deleteQuery);
 	}
 
 	@Transactional
@@ -186,6 +192,10 @@ public class FtseJdbcManager extends JdbcDaoSupport {
 
 	public void setFindNextByDateQuery(String findNextByDateQuery) {
 		this.findNextByDateQuery = findNextByDateQuery;
+	}
+	
+	public void setDeleteQuery(String deleteQuery) {
+		this.deleteQuery = deleteQuery;
 	}
 
 	protected static FtseIndex createFtseIndex(ResultSet rs) throws SQLException {

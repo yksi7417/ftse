@@ -31,7 +31,9 @@ public class FtseLikelihoodJdbcManager extends JdbcDaoSupport {
 	private String saveQuery;
 	private String updateQuery;
 	private String ftseByLikelihoodToleranceQuery;
+	private String deleteQuery;
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public Double findLikelihoodByDate(final Date date) {
 		List result = getJdbcTemplate().query(likelihoodByDateQuery, new PreparedStatementSetter() {
@@ -78,6 +80,11 @@ public class FtseLikelihoodJdbcManager extends JdbcDaoSupport {
 		getJdbcTemplate().update(updateQuery, new Object[] { likelihood, FtseUtils.getMySqlDateTimeString(date) });
 	}
 
+	@Transactional(readOnly = false)
+	public void clearData() {
+		getJdbcTemplate().update(deleteQuery);
+	}
+
 	public Double findLikelihoodByDate(String date) {
 		return findLikelihoodByDate(FtseUtils.getDate(date));
 	}
@@ -112,6 +119,10 @@ public class FtseLikelihoodJdbcManager extends JdbcDaoSupport {
 
 	public void setUpdateQuery(String updateQuery) {
 		this.updateQuery = updateQuery;
+	}
+	
+	public void setDeleteQuery(String deleteQuery) {
+		this.deleteQuery = deleteQuery;
 	}
 
 	public void setFtseByLikelihoodToleranceQuery(String ftseByLikelihoodToleranceQuery) {
