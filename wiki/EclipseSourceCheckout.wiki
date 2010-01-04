@@ -2,7 +2,7 @@
 #labels Featured,Phase-Implementation
 
 = Eclipse =
-First, you need an instance of eclipse for development. For this, you can some updated version of the platform such as Original Eclipse[http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/galileor] or SpringSource Tool Suite[http://www.springsource.com/products/sts].
+First, you need an instance of eclipse for development. For this, you can some updated version of the platform such as [http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/galileor Original Eclipse] or [http://www.springsource.com/products/sts SpringSource Tool Suite].
 
 = Eclipse + Subversion =
 
@@ -22,7 +22,7 @@ To check out the source:
   # Under *SVN* choose *Check out project from SVN*, and click *Next*
   # Choose *Create a new repository location* and click *Next*
   # Under *URL*, enter *[https://ftse.googlecode.com/svn/trunk/]* and click *Next*
-  # You're asked for your Google Code password which you can find here[https://code.google.com/hosting/settings].
+  # You're asked for your Google Code password which you can find [https://code.google.com/hosting/settings here].
   # Checkout the project as a new or an existing one that you have.
 
-Now you can continue to next step[http://code.google.com/p/ftse/wiki/EclipseMavenIntegration].
+Now you can continue to [http://code.google.com/p/ftse/wiki/EclipseMavenIntegration next step].
