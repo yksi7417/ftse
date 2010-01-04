@@ -1,7 +1,7 @@
-#summary A fast setup of the project.
+#summary A fast setup of integrating eclipse and Maven.
 #labels Featured,Phase-Requirements,Phase-Support
 
-= Project Setup =
+= Eclipse + Maven Integration =
 
 == Maven ==
 
