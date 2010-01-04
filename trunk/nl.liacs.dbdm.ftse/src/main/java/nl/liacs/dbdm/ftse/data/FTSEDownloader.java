@@ -11,8 +11,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.liacs.dbdm.ftse.data.jdbc.FtseUtils;
 import nl.liacs.dbdm.ftse.model.FtseIndex;
+import nl.liacs.dbdm.ftse.utils.FtseUtils;
 
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;

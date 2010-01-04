@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+
+body {
+	text-align: center;
+}
+
+#body {
+	text-align: justify;
+	width: 1000px;
+	padding: 10px;
+}
+
+#main {
+	width: 1000px;
+	text-align: center;
+}
+
+.hand {
+	cursor: pointer;
+	cursor: hand;
+}
+
+img {
+	border: none;
+}
+
+.error {
+	border: 2px solid red;
+}

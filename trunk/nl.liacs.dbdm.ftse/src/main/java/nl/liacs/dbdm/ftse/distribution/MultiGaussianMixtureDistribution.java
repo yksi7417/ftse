@@ -3,7 +3,7 @@
  * Created on Dec 3, 2009 | 11:21:26 PM
  *
  */
-package nl.liacs.dbdm.ftse.model;
+package nl.liacs.dbdm.ftse.distribution;
 
 import java.util.Random;
 
@@ -22,58 +22,53 @@ public class MultiGaussianMixtureDistribution implements MultiRandomDistribution
 
 	private static final Random RANDOM = new Random();
 
-	protected MultiGaussianDistribution[] distributions;
-	protected double[][] proportions;
+	protected MultiGaussianDistribution[] components;
+	protected double[] mixtures;
 
 	/**
 	 * 
 	 * @param mgds
 	 * @param proportions
-	 *            We assume that all rows use the same proportions.
+	 *            We assume that all components use the same proportions.
 	 */
 	public MultiGaussianMixtureDistribution(MultiGaussianDistribution[] mgds, double[] proportions) {
-		distributions = mgds;
-		this.proportions = new double[distributions.length][proportions.length];
+		components = mgds.clone();
+		this.mixtures = proportions.clone();
 
-		// if the sum(proportions) != 0 then scale them through [0, 1]
+		// if the sum(proportions) != 1 then scale them through [0, 1]
 		double sum = 0.;
 		for (int i = 0; i < proportions.length; ++i) {
 			sum += proportions[i];
 		}
-		for (int i = 0; i < distributions.length; ++i) {
-			for (int j = 0; j < proportions.length; ++j) {
-				this.proportions[i][j] = proportions[i] / sum;
-			}
+		for (int i = 0; i < proportions.length; ++i) {
+			this.mixtures[i] = proportions[i] / sum;
 		}
 	}
 
 	public int nbGaussians() {
-		return distributions.length;
+		return components.length;
 	}
 
 	public MultiGaussianDistribution[] distributions() {
-		return distributions.clone();
+		return components.clone();
 	}
 
-	public double[][] proportions() {
-		return proportions.clone();
+	public double[] proportions() {
+		return mixtures.clone();
 	}
 
 	@Override
 	public int dimension() {
-		return distributions[0].dimension();
+		return components[0].dimension();
 	}
 
 	public double[] generate() {
 		double r = RANDOM.nextDouble();
-		for (int i = 0; i < proportions.length; ++i) {
-			double sum = 0.;
-			for (int j = 0; j < distributions.length; ++j) {
-				sum += proportions[j][i];
-				if (r <= sum) {
-					return distributions[i].generate();
-				}
-
+		double sum = 0.;
+		for (int i = 0; i < mixtures.length; ++i) {
+			sum += mixtures[i];
+			if (r <= sum) {
+				return components[i].generate();
 			}
 		}
 		throw new RuntimeException("Internal Error");
@@ -81,9 +76,14 @@ public class MultiGaussianMixtureDistribution implements MultiRandomDistribution
 
 	public double probability(double[] v) {
 		double sum = 0.;
-		for (int i = 0; i < distributions.length; ++i) {
-			sum += distributions[i].probability(v);
+		for (int i = 0; i < components.length; ++i) {
+			sum += components[i].probability(v) * mixtures[i];
 		}
 		return sum;
+	}
+
+	@Override
+	public MultiGaussianMixtureDistribution clone() {
+		return new MultiGaussianMixtureDistribution(components, mixtures);
 	}
 }

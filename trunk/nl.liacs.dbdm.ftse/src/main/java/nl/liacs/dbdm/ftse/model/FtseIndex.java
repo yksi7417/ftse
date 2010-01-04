@@ -8,7 +8,7 @@ package nl.liacs.dbdm.ftse.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import nl.liacs.dbdm.ftse.data.jdbc.FtseUtils;
+import nl.liacs.dbdm.ftse.utils.FtseUtils;
 import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
 
 /**
@@ -117,7 +117,7 @@ public class FtseIndex extends ObservationVector implements Serializable, Compar
 		if (date == null) {
 			return "null";
 		}
-		return FtseUtils.getMySqlDateTime(date);
+		return FtseUtils.getMySqlDateTimeString(date);
 	}
 
 	public void setDate(Date date) {
