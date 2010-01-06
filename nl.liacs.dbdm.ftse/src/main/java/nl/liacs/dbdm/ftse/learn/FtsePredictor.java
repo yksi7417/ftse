@@ -45,16 +45,18 @@ public class FtsePredictor {
 		PredictionResult result = new PredictionResult();
 		Map<Date, List<Double>> predictions = new SerializableListOrderedMap();
 		init(predictionDate, days, tolerance);
-		int count = 0;
-		Date predDate = FtseUtils.getDate(predictionDate);
-		result.setStartDate(predDate);
+		Date curDate = FtseUtils.getDate(predictionDate);
+		Date from = (Date) curDate.clone();
+		Date to = FtseUtils.getDateDaysAfter(curDate, days);
+		result.setStartDate(from);
+		result.setEndDate(to);
 		double sum = 0.;
 		double n = 0.;
 		do {
 			try {
-				Date yesterPredDate = FtseUtils.getYesterday(predDate);
+				Date yesterPredDate = FtseUtils.getYesterday(curDate);
 				FtseIndex yesterFtse = ftseJdbcManager.findByDate(yesterPredDate).get(0);
-				FtseIndex realPredFtse = ftseJdbcManager.findByDate(predDate).get(0);
+				FtseIndex realPredFtse = ftseJdbcManager.findByDate(curDate).get(0);
 				Double yesterPredDateLikelihood = ftseLikelihoodJdbcManager.findLikelihoodByDate(yesterPredDate);
 				List<FtseIndex> guesses = ftseLikelihoodJdbcManager.findByLikelihoodTolerance(yesterPredDate,
 						yesterPredDateLikelihood, predictionLikelihoodTolerance);
@@ -66,16 +68,15 @@ public class FtsePredictor {
 							+ (bestGuessTomorrow.getClose() - bestGuess.getClose());
 					sum = sum + Math.abs((realPredFtse.getClose() - predictedClose) / realPredFtse.getClose());
 					n++;
-					predictions.put(predDate, Arrays.asList(new Double[] { realPredFtse.getClose(), predictedClose }));
+					predictions.put(curDate, Arrays.asList(new Double[] { realPredFtse.getClose(), predictedClose }));
 				}
 			} catch (Exception e) {
 			}
-			predDate = FtseUtils.getTomorrrow(predDate);
-		} while (++count <= predictionDays);
+			curDate = FtseUtils.getTomorrrow(curDate);
+		} while (curDate.getTime() <= to.getTime());
 		this.mape = sum / n;
 		logger.info("Prediction complete from [" + predictionDate + "] for [" + days + "] days with ["
 				+ predictions.size() + "] results");
-		result.setEndDate(predDate);
 		result.setMape(mape);
 		result.setPredictions(predictions);
 		return result;

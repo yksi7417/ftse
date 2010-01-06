@@ -127,6 +127,7 @@ public class FtseEntryPoint implements EntryPoint {
 
 	private Panel initLoadDataPanel() {
 		loadDataPanel = new VerticalPanel();
+		loadDataPanel.setWidth("100%");
 
 		loadDataFromDateWidget = new DateWidget();
 		loadDataFromDateWidget.setValue("2005-01-01");
@@ -139,6 +140,7 @@ public class FtseEntryPoint implements EntryPoint {
 			@Override
 			public void onSuccess(String result) {
 				Window.alert(result);
+				contentTabPanel.selectTab(Tabs.Load.next());
 			}
 
 			@Override
@@ -189,6 +191,7 @@ public class FtseEntryPoint implements EntryPoint {
 
 	private Panel initTrainingPanel() {
 		trainingPanel = new VerticalPanel();
+		trainingPanel.setWidth("100%");
 
 		trainingDateWidget = new DateWidget();
 
@@ -205,7 +208,7 @@ public class FtseEntryPoint implements EntryPoint {
 
 			@Override
 			public void onSuccess(String result) {
-				contentTabPanel.selectTab(1);
+				contentTabPanel.selectTab(Tabs.Train.next());
 			}
 		};
 		trainButton.addClickHandler(new ClickHandler() {
@@ -227,6 +230,7 @@ public class FtseEntryPoint implements EntryPoint {
 
 	private Panel initLikelihoodPanel() {
 		likelihoodPanel = new HorizontalPanel();
+		likelihoodPanel.setWidth("100%");
 
 		likelihoodDateWidget = new DateWidget();
 
@@ -237,7 +241,7 @@ public class FtseEntryPoint implements EntryPoint {
 
 			@Override
 			public void onSuccess(String result) {
-				contentTabPanel.selectTab(2);
+				contentTabPanel.selectTab(Tabs.Likelihood.next());
 			}
 
 			@Override
@@ -263,6 +267,8 @@ public class FtseEntryPoint implements EntryPoint {
 	private Panel initPredictionPanel() {
 		predictionPanel = new VerticalPanel();
 		predictionChartPanel = new VerticalPanel();
+		predictionPanel.setWidth("100%");
+		predictionChartPanel.setWidth("100%");
 
 		predictionDateWidget = new DateWidget();
 
@@ -322,7 +328,7 @@ public class FtseEntryPoint implements EntryPoint {
 			}
 			Options options = LineChart.Options.create();
 			options.setHeight(400);
-			options.setWidth(1000);
+			options.setWidth(1600);
 			options.setTitle(CHART_TITLE + "['" + format.format(result.getStartDate()) + "' - '"
 					+ format.format(result.getEndDate()) + "'] - MAPE: " + getPercentage(result.getMape()));
 			options.setSmoothLine(true);
@@ -371,6 +377,14 @@ public class FtseEntryPoint implements EntryPoint {
 		} catch (NumberFormatException e) {
 		}
 		return options;
+	}
+
+	private enum Tabs {
+		Load, Train, Likelihood, Predict;
+
+		public int next() {
+			return ordinal() + 1;
+		}
 	}
 
 }
