@@ -95,7 +95,8 @@ introduce how Hidden Markov Models can be used in such a problem.
 Section \ref{sec:approach} discusses in detail the overall approach we took in this assignment. Section \ref{sec:data}
 talks about the data retrieval; Section \ref{sec:stats} provides a brief statistical report on the data; Section
 \ref{sec:train} discusses the details of training the HMM; Sections \ref{sec:likelihood} and \ref{sec:pred} present
-the algorithms to compute likelihoods and prediction criteria. 
+the algorithms to compute likelihoods and prediction criteria. And, Section \ref{sec:valid} depicts how the validation
+has been done for the training of the HMM and its predicted results.
 
 Section \ref{sec:results} provides the experiments' results and Section \ref{sec:impl} talks about the technology and
 implementation overview of the experiments. Finally, Section \ref{sec:future} proposes some future works into the
@@ -227,11 +228,45 @@ discuss each of the the phases in more details.
 \subsection{Stock Data Retrieval} \label{sec:data} 
 There are a number of sources of stock and financial data on web including Google Finance and Yahoo! Finance. In the
 specific case of \textbf{FTSE Index}, it seems that Google Finance does not provide the required data format as
-required. As an alternative, Yahoo! Finance was used to load and store the stock data from 1984. In the application
+required. As an alternative, Yahoo! Finance was used to load and store the stock data from $1984$. In the application
 developed for this project, an interface is included to use when needed to load the data beforehand using the
 algorithms for training and prediction.
 
 \subsection{Statistical Report} \label{sec:stats}
+Taking a very brief look at the history of FTSE Index stock data, it reveals that this stock index has gone through a
+very vast range of changes over time since $1984$. This fact is important as the problem is being solved using some
+techniques to first \textit{train an HMM} for which the historical data is being used. Intuitively, one can say that
+the changes of stock trends during the $90$'s would not somehow be relevant, constructive, or informative of the recent
+stock trends in the past couple of years. To create a better impression, we tried to do some simple analysis on the
+historical data since $1984$. Figure \ref{fig:ftse-mean} shows the compared mean values of the four indices; namely, open,
+high, low, and close; during different ranges of time.
+
+\begin{figure}[h] 
+\centering
+\setlength\fboxsep{0.1pt}
+\setlength\fboxrule{0.7pt}
+\fbox{\includegraphics[scale=0.6]{ftse-mean.png}}
+\caption{FTSE Stock Indices Mean Values over time periods} \label{fig:ftse-mean}
+\end{figure}
+
+As in Figure \ref{fig:ftse-mean}, we can say that whereas the period of $2007$ to $2009$ has been the most
+flourishing period in FTSE Index, it is obvious that it has dropped drastically since the beginning of $2009$. Thus,
+one conclusion might be that training an HMM with historical data from the period $2009-2009$ would not be wise to be
+used for the prediction of the values in year $2009$. On the other hand, Figure \ref{fig:ftse-std} shows the standard
+deviation of the indices for the same periods.
+
+\begin{figure}[h] 
+\centering
+\setlength\fboxsep{0.1pt}
+\setlength\fboxrule{0.7pt}
+\fbox{\includegraphics[scale=0.6]{ftse-std.png}}
+\caption{Process Overview} \label{fig:ftse-std}
+\end{figure}
+
+With reinforcement, Figure \ref{fig:ftse-std} somehow shows that although as time passes, FTSE Index fails to be more
+promising, the deviation from mean values are less likely to happen; i.e. index values tend to obey the most likely the
+same behavior in time that could be highly useful in prediction. Thus, we tried to use the latest stock data history to
+train and predict the values for the current year.
 
 \subsection{Data Scaling} \label{sec:scale}
 As the statistical report shows in Section \ref{sec:stats}, there are times that the data could be skewed unequally and
@@ -251,9 +286,9 @@ close)$, the following settings and considerations have been taken into account:
   \item \textbf{Mixtures:} \cite{hassan:hmm_stock} proposes to have $M = 3$.
   \item \textbf{Left-Right Delta:} experimentally, we have tried $\Delta = 1$ and $\Delta = 3$.
   \item \textbf{Prior Probability:} Adhering to the left-right HMM, we have $\pi = (1, 0, 0, 0)$.
-  \item \textbf{HMM Training:} According to \cite{hassan:hmm_stock,rabiner:hmm}, we need to use Baum-Welch Learning
-  Algorithm to train the HMM. Baum-Welch training algorithms does its job based on a number of \textit{iterations} to
-  tune and update the parameters of the model, namely the transition probability $B$. 
+  \item \textbf{HMM Training:} According to \cite{hassan:hmm_stock,rabiner:hmm}, we need to use \textbf{Baum-Welch
+  Learning Algorithm} to train the HMM. Baum-Welch training algorithms does its job based on a number of
+  \textit{iterations} to tune and update the parameters of the model, namely the transition probability $B$. 
 \end{enumerate}
 
 \subsection{Likelihood Update} \label{sec:likelihood}
@@ -316,10 +351,25 @@ Error) measure.
 \end{algorithmic}
 \end{algorithm}
 
+\subsection{Validation} \label{sec:valid}
+To validate this experiment, as we have an application developed for it, we easily load the data for the past desired
+duration, then train the application for a period in $2009$ and try to predict the closing months of the year $2009$.
+Accordingly, Figure \ref{fig:validation} shows the last three months of the year predicted values for FTSE Close Index
+value.
+
+\begin{figure*}[t] 
+\centering
+\setlength\fboxsep{0.1pt}
+\setlength\fboxrule{0.7pt}
+\fbox{\includegraphics[scale=0.4]{ftse-validation.png}}
+\caption{Predicted vs. Actual ``close'' values from $2009/10/01$ to $2010/01/01$ with $tolerance = 0.05$}
+\label{fig:validation}
+\end{figure*}
+
 \section{Experiments and Results} \label{sec:results}
 As an application is developed for this assignment, a sample result from the application is presented here. Figure
-\ref{fig:res1} depicts a sample run from the application in which a prediction of $1000$ days from $2007/01/01$ is done using
-an HMM with settings in Table \ref{tbl:res1}.
+\ref{fig:res1} depicts a sample run from the application in which a prediction of $720$ days from $2008/01/01$ to
+$2010/01/01$ is done using an HMM with settings in Table \ref{tbl:res1}.
 
 \begin{table}[h]
 \centering
@@ -338,8 +388,8 @@ $tolerance$ & The Likelihood Tolerance & $0.01$ \\ \hline
 \centering
 \setlength\fboxsep{0.1pt}
 \setlength\fboxrule{0.7pt}
-\fbox{\includegraphics[scale=0.65]{2007-01-01___2009-09-28___1000.png}}
-\caption{Predicted vs. Actual ``close'' values from $2007/01/01$ for $1000$ days} \label{fig:res1}
+\fbox{\includegraphics[scale=0.4]{2008-01-01___2010-01-01___720.png}}
+\caption{Predicted vs. Actual ``close'' values from $2008/01/01$ to $2010/01/01$} \label{fig:res1}
 \end{figure*}
 
 \section{Implementation} \label{sec:impl}
@@ -356,12 +406,45 @@ implementation was done in this regard.
 
 \subsubsection{Mixture of Multivariate Gaussian Distribution}
 As JAHMM does not provide an implementation for the mixture of multivariate Gaussian distribution, one was developed to
-be used in the experiments.
+be used in the experiments. The classes \textit{MultiGaussianMixtureDistribution},
+\textit{OpdfMultiGaussianMixtureDistribution}, and \textit{OpdfMultiGaussianMixtureDistributionFactory} provide the
+implementation.
 
 \subsubsection{Left-Right HMM}
-JAHMM does not implement the concept of a left-right HMM for which an implementation is given in our project.
+JAHMM does not implement the concept of a left-right HMM for which an implementation is given in our project. The class
+$LeftRighHmm$ provides the implementation.
 
 \subsection{Implementation}
+Briefly, the implementation project for this experiment takes advantage of Google Web Toolkit
+(GWT)\footnote{\url{http://code.google.com/p/webtoolkit}} Version $2.0$ as its GUI layer and Spring
+Framework\footnote{\url{http://www.springframework.org}} Version $3.0$ including Spring Core, Spring MVC, and Spring DAO
+in different layers of the application. Additionally, MySQL\footnote{\url{http://www.mysql.com}} is used for the
+back-end data storage.
+
+\subsubsection{Data Retrieval}
+Mainly, there are two classes, \textit{FTSEDownloader}, \textit{FtseJdbcManager} and \textit{FtseLikelihoodJdbcManager}, that
+in charge of data retrieval requirements in the project including downloading the data from Yahoo! Finance, persisting the data,
+retrieving different queries on FTSE data; generally implementing the data access layer for the FTSE data.
+
+\subsubsection{FTSE Stock Service}
+Generally, it has been tried to develop a simple single-point-of-action service layer for FTSE stock data services.
+This service object implemented by class \textit{FtseStockService} provides the following interfaces:
+\begin{enumerate}
+  \item \textbf{HMM Training:} taking advantage of an instance \textit{HmmTrainer} provides an interface to train the required
+  HMM in the experiment.
+  \item \textbf{Likelihood Update:} that is done through an instance of \textit{FtseLikelihoodService}.
+  \item \textbf{Prediction:} for which an object of \textit{FtsePredictor} is being used.
+\end{enumerate}
+
+\subsubsection{Web Interface}
+All the client side implementation of the Web interface of the application is connected to the FTSE Stock Service layer
+through GWT RPC mechanism and Spring MVC framework.
+
+\subsubsection{Application Configuration}
+Application configuration is done through Spring Container's XML configuration files. The main configuration file for
+the application in in \textit{ftse-config.xml} and configurations required for MVC layer is done through
+\textit{ftse-servlet.xml}. And, one required \textit{web.xml} initializes the application in a standard application
+container such as Apache Tomcat\footnote{\url{http://tomcat.apache.org}}.
 
 \subsubsection{Project Source}
 This project is available under \textit{Apache License Version 2.0} in \cite{ftse}. Easy and complete instructions of
@@ -387,7 +470,11 @@ the work that has been done, for future, one of the ideas to apply to gain bette
 somehow try to control the deviation from the actual values that are seen over time. Additionally, further boundary
 checks could be applied to the predicted data to prevent undesired deviations in the predictions
 
-%\lstinputlisting[label=lst:removeatt,caption=Attribute removal]{removeatt.sh}
+Another idea could be proposed as ``continuous training''; as opposed to the current situation in which a period of
+time is considered and for that an amount of data is located and used to train an HMM. Then the trained HMM is used for
+prediction purposes. However, a better ideas is to somehow \textbf{persist} the trained HMM and overtime try to
+optimized and tune the HMM according to the latest data that emerge in time. This way, intuitively, we would be trying
+to optimize and improve the HMM over time without losing the trained HMM from the past.
 
 \section{Acknowledgments} \label{sec:ack}
 We would like to express our thanks to Hossein Rahmani with whom we had some discussions on the problem; even though

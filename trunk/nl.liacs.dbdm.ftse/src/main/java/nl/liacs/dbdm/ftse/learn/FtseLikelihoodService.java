@@ -45,11 +45,16 @@ public class FtseLikelihoodService {
 	public void updateLikelihoods(Hmm<ObservationVector> hmm, String startDate, int interval) {
 		init(startDate, interval);
 		Date date = FtseUtils.getDate(likelihoodStartDate);
+		Date threshold = FtseUtils.getDateDaysAfter(date, interval);
 		logger.info("Starting to update likelihood values from [" + date + "] for [" + interval + "] days.");
 		for (int i = 0; i < likelihoodInterval;) {
 			List<FtseIndex> ftses = ftseJdbcManager.findByDate(date);
 			if (ftses == null || ftses.isEmpty()) {
 				date = FtseUtils.getTomorrrow(date);
+				if (date.getTime() >= threshold.getTime()) {
+					// finish it!
+					i = likelihoodInterval + 1;
+				}
 				continue;
 			}
 			double p = hmm.probability(ftses);
