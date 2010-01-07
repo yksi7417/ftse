@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project name="FTSE" default="build" basedir=".">
 
-	<property name="gwt.sdk" location="/media/D/dev/apache-maven-2.1.0/repo/com/google/gwt" />
+	<property environment="env" />
+	<property name="gwt.sdk" location="${env.M2_HOME}/repo/com/google/gwt" />
 	<property name="gwt.module.name" value="nl.liacs.dbdm.ftse.ui.FtseModule" />
 	<property name="gwt.war" value="${basedir}/src/main/webapp/gwt/" />
 
