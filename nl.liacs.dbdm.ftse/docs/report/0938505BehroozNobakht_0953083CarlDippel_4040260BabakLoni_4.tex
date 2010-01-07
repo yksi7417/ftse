@@ -132,11 +132,11 @@ To define an HMM, we need
 \begin{description}
 \item[States $Q$]: An HMM has a number of states $N$ and it is usually desired to denote the the states that the model
 goes through in time as $\{q_1, q_2, \ldots q_T\}$ with $T$ as the time length of the observations.
-\item[Observations $O$]: in any HMM, during time till $T$, there is a sequence of observations as $\{o_1, o2, \ldots
+\item[Observations $O$]: in any HMM, during time till $T$, there is a sequence of observations as $\{o_1, o_2, \ldots
 o_T\}$.
 \item[Transition Matrix $A_{N \times N}$]: Each element $a_{ij}$ denotes the probability of transition from state $i$
 to state $j$.
-\item[Observation Emission Matrix $B_{N \times T}$]: in which $b_j(O_t)$ denotes the probability of observing $O_t$ in
+\item[Observation Emission Matrix $B$]: in which $b_j(O_t)$ denotes the probability of observing $O_t$ in
 state $j$.
 \item[Prior Probability $\pi_{N \times 1}$]: in which $\pi_i$ denotes the probability of being in state $i$ when at
 time $t = 1$.
@@ -162,10 +162,9 @@ b_j(\vec{O}_t) = \sum_{m=1}^{M} c_{jm} \times N(\vec{O}_t, \vec{\mu}_{jm}, \Sigm
 \end{equation}
 in which
 \begin{itemize}
-  \item \boldmath{$M$} is the number of observations in each state. Here, according to \cite{hassan:hmm_stock} and
-  Equation \ref{eq:obs_vec} we have $M = 4$.
+  \item \boldmath{$M$} is the number of the mixtures used in the mixture of multivariate Gaussian distributions.
   \item \boldmath{$c_{jm}$} is the \textit{mixture coefficient} for the $m$-th mixture in state $j$ having the property
-  $\sum_{i = 1}^{N} c_{jm} = 1$ for all $1 \leq j \leq N$.
+  $\sum_{m = 1}^{M} c_{jm} = 1$ for all $1 \leq j \leq N$.
   \item \boldmath{$\vec{\mu}_{jm}$} is the mean vector for the $m$-th mixture component in state $j$.
   \item \boldmath{$\Sigma_{jm}$} is the covariance matrix for the $m$-th mixture component in state $j$.
   \item \boldmath{$N(\vec{O}_t, \vec{\mu}_{jm}, \Sigma_{jm})$} is a multi-dimensional Gaussian (Normal) distribution.
@@ -295,7 +294,7 @@ close)$, the following settings and considerations have been taken into account:
 In the path to prediction, first, there is a need to find the most similar day in stock market data for a specific day
 so that it could be used to predict the following day's close value. To do so, first, we need to compute the
 likelihood of previous days in the desired range. When having one day's stock data, it is straightforward to compute
-the likelihood of that specific day from the HMM. This is Problem (2) in Section \ref{sec:hmm_probs} which is computed using
+the likelihood of that specific day from the HMM. This is Problem (1) in Section \ref{sec:hmm_probs} which is computed using
 \textbf{Forward Backward Algorithm} proposed in \cite{rabiner:hmm,erwin:datamining,wiki:hmm}. Algorithm
 \ref{alg:likelihood} overalls depicts the method to compute likelihoods.
 
@@ -472,8 +471,8 @@ checks could be applied to the predicted data to prevent undesired deviations in
 
 Another idea could be proposed as ``continuous training''; as opposed to the current situation in which a period of
 time is considered and for that an amount of data is located and used to train an HMM. Then the trained HMM is used for
-prediction purposes. However, a better ideas is to somehow \textbf{persist} the trained HMM and overtime try to
-optimized and tune the HMM according to the latest data that emerge in time. This way, intuitively, we would be trying
+prediction purposes. However, a better idea is to somehow \textbf{persist} the trained HMM and over time try to
+optimize and tune the HMM according to the latest data that emerge in time. This way, intuitively, we would be trying
 to optimize and improve the HMM over time without losing the trained HMM from the past.
 
 \section{Acknowledgments} \label{sec:ack}
