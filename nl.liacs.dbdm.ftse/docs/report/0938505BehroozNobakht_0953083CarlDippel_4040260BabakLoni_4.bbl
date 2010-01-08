@@ -51,6 +51,11 @@ Rafiul Hassan and Baikunth Nath.
 \newblock Stockmarket forecasting using hidden markov model: A new approach.
 \newblock {\em IEEE Computer Society}, 2005.
 
+\bibitem{hassan:hmm_GA}
+Rafiul Hassan, IEEE Computer Society and Michael Kirley.
+\newblock A fusion model of HMM, ANN and GA for stock market forcasting.
+\newblock {\em Elsevier}, 2007.
+
 \bibitem{rabiner:hmm}
 Lawrence~R. Rabiner.
 \newblock A tutorial on hidden markov models and selected applications in
