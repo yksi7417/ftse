@@ -170,7 +170,7 @@ in which
   \item \boldmath{$N(\vec{O}_t, \vec{\mu}_{jm}, \Sigma_{jm})$} is a multi-dimensional Gaussian (Normal) distribution.
 \end{itemize}
 
-\subsection{Left-Right (Bakis) HMM}
+\subsection{Left-Right (Bakis) HMM} \label{sec:bakis-hmm}
 As \cite{rabiner:hmm,gpds:hmm_tut} define, a variation of HMM is used called Left-Right HMM (Bakis HMM) in which the
 basic ideas is that there is no transition from higher order states to lower order states. This idea is strongly
 useful in time series analysis applications such as stock market analysis and speech recognition.
@@ -210,11 +210,20 @@ In stock market analysis and prediction, we are facing the first and the third p
 the problem (3) and prediction is achieved with problem (1).
 
 \subsection{Initializing the HMM} \label{sec:ini_hmm}
-Another important issue in the modeling with HMM is how to initialize the parameters of defined HMM, i.e. transition probalities, observation probabilities (distributions) and prior probabilities. Although the HMM can adjusts it parameters as good as possible in the learning process, however badly initiating the HMM parameters can cause imprecise model even though after HMM is trained and learnt. Hassan and Nath in \cite{hassan:hmm_GA} proposed a GA-based approach to obtain initial optimized values of the HMM parameters.
+Another important issue in modeling with HMM is how to initialize the parameters of defined HMM, i.e.  transition
+probabilities, observation probabilities (distributions) and prior probabilities. Although the HMM can adjust its 
+parameters as good as possible in the learning process, however, improper initiation of the HMM parameters can cause 
+imprecise model even though after HMM is trained and learnt. Hassan and Nath in \cite{hassan:hmm_GA} proposed  a
+GA-based approach to obtain initial optimized values of the HMM parameters.
 
-In this assignment we proposed our approach to initialize the parameters of the HMM base of physical behavior of data. As we describe in 3.2 one of the best HMM types that can be used for time series prediction is Left-Right HMM. Consequently the prior probabilities is $(1,0,0,0)$ since the Left-Right HMM impose this fact. Transition probabilities is again mainly depends on the defined model. In 3.2 we described how should we initialized the transition probabilities based on the value of $\Delta$.
- Observation distributions can be initialized based on the training data. Since our proposed HMM has 4 states, we divided our training sequence in 4 equal sections, each sequence is used to estimates the best possible mixture of multi-Gaussian distribution for each state. The parameters of the multi-Gaussian distributions are estimated with maximum likelihood method.
-
+In this assignment we proposed our approach to initialize the parameters of the HMM based on physical behavior of data.
+As we describe in Section \ref{sec:bakis-hmm} one of the best HMM types that can be used for time series prediction is
+Left-Right HMM. Consequently the prior probabilities is $(1,0,0,0)$ since the Left-Right HMM impose this fact. Transition 
+probabilities also mainly depend on the defined model. In Section \ref{sec:bakis-hmm}, we described how we should 
+initialize the transition probabilities based on the value of $\Delta$. Observation distributions can be initialized
+based on the training data. Since our proposed HMM has $4$ states, we divided our training sequence in $4$ equal
+segments, each sequence is used to estimates the best possible mixture of multivariate Gaussian distribution for each
+state. The parameters of the multivariate Gaussian distributions are estimated with \textit{maximum likelihood method}.
 
 \section{Approach} \label{sec:approach}
 As the problem of the prediction could be complex and lengthy, a series of actions and activities in the form of
@@ -420,7 +429,7 @@ implementation.
 JAHMM does not implement the concept of a left-right HMM for which an implementation is given in our project. The class
 $LeftRighHmm$ provides the implementation.
 
-\subsection{Implementation}
+\subsection{Process Realization}
 Briefly, the implementation project for this experiment takes advantage of Google Web Toolkit
 (GWT)\footnote{\url{http://code.google.com/p/webtoolkit}} Version $2.0$ as its GUI layer and Spring
 Framework\footnote{\url{http://www.springframework.org}} Version $3.0$ including Spring Core, Spring MVC, and Spring DAO
